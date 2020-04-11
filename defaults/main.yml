@@ -1,0 +1,8 @@
+---
+
+php_version: '7.3'
+php_package_list_Debian: 
+- nginx
+- php{{ php_version }}-cgi
+- php{{ php_version }}-fpm
+- php{{ php_version }}
