@@ -3,6 +3,8 @@ language: "python"
 python:
 - 2.7
 
+dist: buster
+
 env:
 - ANSIBLE_VERSION=2.9
   PHP_VERSION=7.4
