@@ -2,10 +2,10 @@
 
 - name: Gather php packages
   set_fact: 
-    php_package_list: "{{ lookup('vars', 'php_package_list_' + ansible_distribution) }}"
+    package_list: "{{ lookup('vars', 'package_list') }}"
 - name: Install php
   package: 
-    name: '{{ php_package_list }}'
+    name: '{{ package_list }}'
     state: latest
   notify:
   - reload nginx
@@ -31,7 +31,6 @@
   - nginx
   - "php{{ php_version }}-fpm"
 
-# On Ubuntus this is usually a TCP port. We'd rather use a unix socket...
 - name: set php-fpm socket location
   lineinfile:
     dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
