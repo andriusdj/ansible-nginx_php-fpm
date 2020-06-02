@@ -3,4 +3,4 @@
 - hosts: all
   remote_user: root
   roles:
-  - ansible-nginx_php5-fpm
+  - ansible-nginx_php-fpm
