@@ -4,34 +4,10 @@ python:
 - 2.7
 
 env:
-- ANSIBLE_VERSION=1.5.2
-- ANSIBLE_VERSION=1.5.3
-- ANSIBLE_VERSION=1.5.4
-- ANSIBLE_VERSION=1.5.5
-- ANSIBLE_VERSION=1.6
-- ANSIBLE_VERSION=1.6.1
-- ANSIBLE_VERSION=1.6.2
-- ANSIBLE_VERSION=1.6.3
-- ANSIBLE_VERSION=1.6.4
-- ANSIBLE_VERSION=1.6.5
-- ANSIBLE_VERSION=1.6.6
-- ANSIBLE_VERSION=1.6.7
-- ANSIBLE_VERSION=1.6.8
-- ANSIBLE_VERSION=1.6.9
-- ANSIBLE_VERSION=1.6.10
-- ANSIBLE_VERSION=1.7
-- ANSIBLE_VERSION=1.7.1
-- ANSIBLE_VERSION=1.7.2
-- ANSIBLE_VERSION=1.8
-- ANSIBLE_VERSION=1.8.1
-- ANSIBLE_VERSION=1.8.2
-- ANSIBLE_VERSION=1.8.3
-- ANSIBLE_VERSION=1.8.4
-- ANSIBLE_VERSION=1.9.0.1
-- ANSIBLE_VERSION=1.9.1
-- ANSIBLE_VERSION=1.9.2
-- ANSIBLE_VERSION=1.9.3
-- ANSIBLE_VERSION=1.9.4
+- ANSIBLE_VERSION=2.9
+- PHP_VERSION=7.4
+- PHP_VERSION=7.3
+- PHP_VERSION=7.2
 
 before_install:
 # Make sure everything's up to date.
@@ -55,14 +31,14 @@ script:
   && (echo 'NGINX test: pass' && exit 0)
   || (echo 'NGINX test: fail' && exit 1)
 - >
-  if [ -S /var/run/php5-fpm.sock ]; then
+  if [ -S /var/run/php7.4-fpm.sock ]; then
     echo 'PHP5-FPM Socket exists: pass' && exit 0
   else
     echo 'PHP5-FPM Socket exists: fail' && exit 1
   fi
 
 - >
-  stat -c "%a:%U:%G" /var/run/php5-fpm.sock
+  stat -c "%a:%U:%G" "/var/run/php${PHP_VERSION}-fpm.sock"
   | grep -q '660:root:www-data'
   && (echo 'PHP5-FPM Socket permissions: pass' && exit 0)
   || (echo 'PHP5-FPM Socket permissions: fail' && exit 1)
