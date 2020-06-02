@@ -21,9 +21,9 @@ install:
 
 script:
 - "ansible-playbook -i tests/travis-inventory tests/travis-playbook.yml --syntax-check"
-- "ansible-playbook -i tests/travis-inventory tests/travis-playbook.yml --connection=local --sudo"
+- "ansible-playbook -i tests/travis-inventory tests/travis-playbook.yml --connection=local -b"
 - >
-  ansible-playbook -i tests/travis-inventory tests/travis-playbook.yml --connection=local --sudo
+  ansible-playbook -i tests/travis-inventory tests/travis-playbook.yml --connection=local -b
   | grep -q 'changed=0.*failed=0'
   && (echo 'Idempotence test: pass' && exit 0)
   || (echo 'Idempotence test: fail' && exit 1)
@@ -33,15 +33,14 @@ script:
   && (echo 'NGINX test: pass' && exit 0)
   || (echo 'NGINX test: fail' && exit 1)
 - >
-  if [ -S /var/run/php7.4-fpm.sock ]; then
-    echo 'PHP5-FPM Socket exists: pass' && exit 0
+  if [ -S "/run/php${PHP_VERSION}-fpm.sock" ]; then
+    echo 'PHP-FPM Socket exists: pass' && exit 0
   else
-    echo 'PHP5-FPM Socket exists: fail' && exit 1
+    echo 'PHP-FPM Socket exists: fail' && exit 1
   fi
 
 - >
-  stat -c "%a:%U:%G" "/var/run/php${PHP_VERSION}-fpm.sock"
-  | grep -q '660:root:www-data'
-  && (echo 'PHP5-FPM Socket permissions: pass' && exit 0)
-  || (echo 'PHP5-FPM Socket permissions: fail' && exit 1)
+  stat -c "%a:%U:%G" "/run/php${PHP_VERSION}-fpm.sock" | grep -q '660:root:www-data'
+  && (echo 'PHP-FPM Socket permissions: pass' && exit 0)
+  || (echo 'PHP-FPM Socket permissions: fail' && exit 1)
 
